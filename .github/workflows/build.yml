@@ -4,6 +4,9 @@ on:
   push:
     branches: [main, master]
 
+permissions:
+  contents: write
+
 jobs:
   apk:
     runs-on: ubuntu-latest
@@ -42,3 +45,10 @@ jobs:
         with:
           name: halo-debug-apk
           path: project/halo-chat/android/app/build/outputs/apk/debug/app-debug.apk
+
+      - name: Publish APK as a release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: apk-${{ github.run_number }}
+          name: Halo APK ${{ github.run_number }}
+          files: project/halo-chat/android/app/build/outputs/apk/debug/app-debug.apk
